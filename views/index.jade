@@ -1,0 +1,86 @@
+doctype html
+html(ng-app="psscript")
+	head
+		title PS脚本
+		link(rel="shortcut icon" href="http://psscript.jiangx.com.cn/img/ps.png" size="32*32")
+		link(rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css")
+		link(rel="stylesheet" href="http://psscript.jiangx.com.cn/css/index.css")
+		//- script(src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js")
+		script(src="http://cdn.bootcss.com/angular.js/1.3.0/angular.min.js")
+		script(src="http://cdn.bootcss.com/angular.js/1.3.0/angular-route.min.js")
+	body
+		<!-- 大幕布 -->
+		.banner
+			.content
+				h1 让JavaScript为PS服务
+				p 可以用JavaScript为PhotoShop编写脚本，让PS自动化的运行，放开设计师的双手！
+			.return
+				a.btn.btn-lg.btn-primary(role="button" href="http://jiangx.com.cn") 返回
+		<!-- 大幕布 End -->
+		<!-- 书籍导航 -->
+		nav
+			a(href="#")
+				img(src="http://psscript.jiangx.com.cn/img/ps.png" width="32px" height="32px")
+			a(href="#")
+				img(src="http://psscript.jiangx.com.cn/img/ps.png" width="32px" height="32px")
+			a(href="#")
+				img(src="http://psscript.jiangx.com.cn/img/ps.png" width="32px" height="32px")
+		<!-- 书籍导航 End -->
+		<!-- 主体内容 -->
+		main.container(ng-controller="content")
+			.row
+				//-这里是导航栏
+				.col-md-3.content-nav 
+					ul
+						li 介绍
+							ul
+								li PhotoShop支持的JavaScript
+									ul
+										li 执行脚本
+											ul
+												li 安装脚本
+												li 执行其他脚本
+										li 启动脚本
+								li 对象模型用法和命名
+								li 从上个版本的改变
+				article.col-md-9
+					//- 这里是Angular控制的视图
+					<!-- 这里是Angular控制的视图 -->
+					h1.page-header#introduction 介绍
+					section
+						p 本参考文献描述 Adobe<sup>©</sup>PhotoShop<sup>©</sup>CS6<sup>©</sup>JavaScript™ 类型库中的对象和方法。另一个同类文档 PhotoShop CS6 Scripting Guide，描述基础的脚本概念和PhotoShop对象模型。本文档提供PhotoShop对象模型的参考细节，和一些JavaScript特性环境的一些额外的信息。
+						p 本书包含以下部分：
+						ol
+							li 这个介绍，这里描述 Adobe PhotoShop CS6 的脚本支持。并且列出从上个版本的JavaScript接口的改变。
+							li <a href="#">JavaScript Object Reference</a> ，它提供了一个所有 PhotoShop DOM对象和命令完整的参考。
+							li <a href="#">脚本常量</a>，这里列出了所有被PhotoShop类库使用的常量清单。
+					h2.page-header PhotoShop支持的JavaScript
+					section
+						p 对于一个JavaScript文件希望被PhotoShop承认为一个有效的脚本文件，它必须使用<mark>.js</mark>或者是<mark>.jsx</mark>后缀。
+						p 在Mac OS平台，一个脚本使用这两个扩展名没有任何区别。在Windows平台，如果脚本文件在PhotoShop内部被打开，使用<mark>.js</mark>或者是<mark>.jsx</mark>没有区别。但是，如果脚本文件被双击运行，后缀<mark>.js</mark>的脚本文件将被Microsoft JScript引擎解释，它不会拉起 Adobe PhotoShop CS6，对于Windows，使用<mark>.jsx</mark>后缀是更好的，因为脚本会被 ExtendScript引擎解释。
+						p 所有的 Adobe Creative Suite 6应用，包括 Adobe PhotoShop CS6，使用ExtendScript，Adobe的JavaScript的扩展实现，ExtendScript文件通过<mark>.jsx</mark>后缀区分。ExtendScript提供所有标准JavaScript环境，增加额外的环境和实用工具，比如：
+							ol
+								li 一个调试环境（ExtendScript Toolkit）
+								li 本地化工具
+								li 工具允许你编译脚本并且在特定的程序中执行
+								li 不依赖平台的<strong>文件和文件夹接口的实现</strong> 
+						blockquote 译者注：ExtendScript中可以跨平台访问文件系统，这对于需要操作文件系统的程序非常好。
+						p 许多JavaScript对象和方法使用对象定义在ExtendScript中，比如<mark>File</mark>对象，<mark>Folder</mark>对象和<mark>UnitValue</mark>对象，因为这个原因，对于你的脚本使用<mark>.jsx</mark>后缀是被推荐的。
+						p 对于这些细节和额外的环境，见文件<i>JavaScript Tools Guide</i>。这个文件和Creative Suite 6 应用一起安装在下面的路径中：
+							ul
+								li <strong>In Windows:</strong> C:\Program Files\Adobe\Adobe Utilities\ExtendScript Toolkit CS6\SDK
+								li <strong>In Mac OS:</strong> Applications/Utilities/Adobe Utilities/ExtendScript Toolkit CS6/SDK
+						p 本文档和Extend Toolkit的最新版本的文档，可以从 Adobe Developer Center <a href="http://www.adobe.com/devnet/">http://www.adobe.com/devnet/</a> 中下载。
+						h3 执行脚本
+						p Adobe PhotoShop CS6 接口包括脚本菜单（File&gt;Script），它提供快速并且简单的方法运行你的JavaScript文件，脚本可以直接显示在面板的列中，可以直接选择运行，或者是导航到文件系统并且选择一些JavaScript文件运行。
+						p 如果 Adobe PhotoShop CS6 在执行脚本的时候偶然遇到了一个错误，Adobe PhotoShop CS6 将会显示出一个错误信息。
+						p {{message}}
+						div(ng-view)
+					//- 这里是Angular控制的视图 End
+					<!-- 这里是Angular控制的视图 End -->
+		<!-- 主体内容 End -->
+		<!-- 返回顶部 -->
+		a#scroll-to-top(href="#") ↑
+			span 回顶部
+		<!-- 返回顶部 End -->
+		script(src="http://psscript.jiangx.com.cn/js/index.js")
