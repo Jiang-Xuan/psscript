@@ -23,6 +23,6 @@ psscript.config(function($routeProvider) {
 			controller: 'content'
 		})
 		.when('/concat', {
-			
+
 		})
 })

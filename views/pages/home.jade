@@ -1,1 +1,86 @@
-h1 This is a home file.
+article.col-md-9
+	h1.page-header#introduction 介绍
+	section
+		p 本参考文献描述 Adobe<sup>©</sup>PhotoShop<sup>©</sup>CS6<sup>©</sup>JavaScript™ 类型库中的对象和方法。另一个同类文档 PhotoShop CS6 Scripting Guide，描述基础的脚本概念和PhotoShop对象模型。本文档提供PhotoShop对象模型的参考细节，和一些JavaScript特性环境的一些额外的信息。
+		p 本书包含以下部分：
+		ol
+			li 这个介绍，这里描述 Adobe PhotoShop CS6 的脚本支持。并且列出从上个版本的JavaScript接口的改变。
+			li <a href="#">JavaScript Object Reference</a> ，它提供了一个所有 PhotoShop DOM对象和命令完整的参考。
+			li <a href="#">脚本常量</a>，这里列出了所有被PhotoShop类库使用的常量清单。
+	h2.page-header PhotoShop支持的JavaScript
+	section
+		p 对于一个JavaScript文件希望被PhotoShop承认为一个有效的脚本文件，它必须使用<mark>.js</mark>或者是<mark>.jsx</mark>后缀。
+		p 在Mac OS平台，一个脚本使用这两个扩展名没有任何区别。在Windows平台，如果脚本文件在PhotoShop内部被打开，使用<mark>.js</mark>或者是<mark>.jsx</mark>没有区别。但是，如果脚本文件被双击运行，后缀<mark>.js</mark>的脚本文件将被Microsoft JScript引擎解释，它不会拉起 Adobe PhotoShop CS6，对于Windows，使用<mark>.jsx</mark>后缀是更好的，因为脚本会被 ExtendScript引擎解释。
+		p 所有的 Adobe Creative Suite 6应用，包括 Adobe PhotoShop CS6，使用ExtendScript，Adobe的JavaScript的扩展实现，ExtendScript文件通过<mark>.jsx</mark>后缀区分。ExtendScript提供所有标准JavaScript环境，增加额外的环境和实用工具，比如：
+			ol
+				li 一个调试环境（ExtendScript Toolkit）
+				li 本地化工具
+				li 工具允许你编译脚本并且在特定的程序中执行
+				li 不依赖平台的<strong>文件和文件夹接口的实现</strong> 
+		blockquote 译者注：ExtendScript中可以跨平台访问文件系统，这对于需要操作文件系统的程序非常好。
+		p 许多JavaScript对象和方法使用对象定义在ExtendScript中，比如<mark>File</mark>对象，<mark>Folder</mark>对象和<mark>UnitValue</mark>对象，因为这个原因，对于你的脚本使用<mark>.jsx</mark>后缀是被推荐的。
+		p 对于这些细节和额外的环境，见文件<i>JavaScript Tools Guide</i>。这个文件和Creative Suite 6 应用一起安装在下面的路径中：
+			ul
+				li <strong>In Windows:</strong> C:\Program Files\Adobe\Adobe Utilities\ExtendScript Toolkit CS6\SDK
+				li <strong>In Mac OS:</strong> Applications/Utilities/Adobe Utilities/ExtendScript Toolkit CS6/SDK
+		p 本文档和Extend Toolkit的最新版本的文档，可以从 Adobe Developer Center <a href="http://www.adobe.com/devnet/">http://www.adobe.com/devnet/</a> 中下载。
+		h3 执行脚本
+		p Adobe PhotoShop CS6 接口包括脚本菜单（File&gt;Script），它提供快速并且简单的方法运行你的JavaScript文件，脚本可以直接显示在面板的列中，可以直接选择运行，或者是导航到文件系统并且选择一些JavaScript文件运行。
+		p 如果 Adobe PhotoShop CS6 在执行脚本的时候偶然遇到了一个错误，Adobe PhotoShop CS6 将会显示出一个错误信息。
+		h4 安装脚本
+		p 安装JavaScript脚本文件到脚本菜单中，将它放在脚本文件夹中（PhotoShop CS6/Presets/Scripts），在脚本文件夹中的脚本将会没有后缀的显示在脚本菜单中，许多脚本都可能被安装到脚本菜单中。
+		p 在 Adobe PhotoShop CS6在运行的时候将脚本增加进脚本文件夹中将不会被显示在脚本菜单中，直到下次拉起程序。
+		p 在脚本文件夹中的所有被发现的脚本文件以及子文件夹将会显示在 File&gt;Scripts 菜单的顶层，额外的子文件夹不会增加脚本菜单的分层组织。
+		h4 执行其他脚本
+		p 浏览项在脚本菜单的最下面（File&gt;Scripts&gt;Browser），它允许你去执行没有安装到脚本文件夹中的脚本，你也可以在程序被拉起的时候使用Browser去选择将脚本安装到脚本文件夹中。
+		p 选择浏览将显示一个文件浏览对话框，它允许你去选择脚本文件去执行，只有<mark>.js</mark>和<mark>.jsx</mark>文件会被显示在浏览对话框中，当你选择了一个脚本文件，它就会被执行的和安装的脚本相同的方式。
+		h3 启动脚本
+		p 在程序启动的时候，Adobe PhotoShop CS6 执行它在启动文件夹中发现的所有<mark>.jsx</mark>文件。
+			ul
+				li 在Windows平台中，启动文件夹对于用户定义的脚本在：C:\Program Files\Common Files\Adobe\Startup Scripts CS6\Adobe Photoshop
+				li 在Mac OS平台中，启动文件夹对于用户定义的脚本在：~/Library/Application Support/Adobe/Startup Scripts CS6/Adobe Photoshop
+		p 如果一个脚本的执行只在 Adobe PhotoShop CS6 中，它必须包含下面的是列代码：
+			pre <code>if(BridgeTalk.appName == 'photoshop') {
+					|	// 继续执行脚本
+					|}</code>
+		p 想要获取更多细节，另见 <i>JavaScript Tools Guide CS6</i>。
+
+	h2.page-header 对象模型用法和命名
+	section
+		p JavaScript API的名字的约定，所有的类（Object 类型）开始于一个大写字母，并且后面大小写混合，特别的，在JavaScript中，实例化一个类使用 new 操作符
+			pre 
+				code new ClassName();
+		p 但是，在PhotoShop对象模型中，通常没有必要这么做，主要的对象类型被集合成一个集合对象，例如，一系列Document对象被包含在Documents集合对象中。接下来进入集合对象通过在对象层次的容器中的相应的集合属性。
+		p 例如，所有打开的文档的集合被包含在顶层 Application 对象中，你可以进入集合通过全局变量app，或者是直接在顶层简单的引用它的属性：
+		p
+			pre
+				<code> app.documents[0]//获取最先被加载的文档
+				|&nbsp;documents[0] //和上面一样</code>
+		p 一个集合属性和集合对象同样拥有名字，但是开始是小写字母。比如，一个Document包含一个LayerSets集合，一个LayerSet包含一个ArtLayers集合，进入一个ArtLayer对象应该这样：
+			pre
+				<code> var myLayer = activeDocument.layerSets[0].artLayers[0];</code>
+		p 集合，就像例子一样，可以被看做是数组，这对于遍历得常有用。它们同样提供一些方法去增加它们包含的对象，并且寻找新添加的通过名字：
+			pre
+				<code> var newLayer = activeDocument.artLayers.add();//增加一个新的 ArtLayer 对象
+				|&nbsp;newLayer.name = 'My Layer';//命名为了后面的引用
+				|&nbsp;var layerRef = activeDocument.artLayers.getByName('My Layer');</code>
+		p 一些对象，比如 Font 对象包含在 appfonts 集合中，只能被应用程序添加，绝对不能通过你的脚本。
+		p 你的脚本使用JavaScript new 操作符去增加一些辅助对象，比如这些封装一个选项集去打开或者是保存一个文档在指定的格式下面：
+			pre
+				<code> var opt = new PDFOpenOptions();
+				|&nbsp;opts.page = 10;
+				|&nbsp;app.open(myPDFFile, opts;)</code>
+		h2.page-header 从上个版本的改变 -- CS6 改变
+		section
+			p 下面的改变已经被应用进JavaScript对象模型和Adobe PhotoShop CS6支持的语言：
+			ul
+				li 新的方法和属性：
+					ul
+						li getLargeInteger 已经被添加进 ActionDescriptor 和 ActionList 对象中。
+						li putLargeInteger 已经被添加进 ActionDescriptor 和 ActionList 对象中。
+						li compression 方法已经被添加进PNGSaveOptions 对象。
+				li 修改 enumerations：
+					ul
+						li LARGEINTEGERTYPE 已经被添加进 DescValueType enumeration。
+						li EXTRALARGE 和 HUGE 已经被添加进 FontPreviewType enumeration。
+	hr
